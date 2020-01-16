@@ -1,11 +1,15 @@
 {
-  "name": "electron-updater",
-  "version": "0.0.0-semantic-release",
+  "name": "@luftborn/electron-updater",
+  "version": "0.0.4",
   "description": "Cross platform updater for electron applications",
   "main": "out/main.js",
-  "author": "Vladimir Krivosheev",
+  "author": "Luftborn",
   "license": "MIT",
-  "repository": "electron-userland/electron-builder",
+  "repository": "luftborn-ivs/electron-builder",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "remove '@luftborn/' from package name, then go up 2 directories and run: npm run compile, then put back the '@luftborn/'"
+  },
   "bugs": "https://github.com/electron-userland/electron-builder/issues",
   "homepage": "https://github.com/electron-userland/electron-builder",
   "files": [
@@ -13,16 +17,27 @@
   ],
   "dependencies": {
     "@types/semver": "^6.2.0",
-    "lazy-val": "^1.0.4",
+    "builder-util-runtime": "^8.5.0",
     "fs-extra": "^8.1.0",
     "js-yaml": "^3.13.1",
-    "semver": "^7.1.1",
-    "builder-util-runtime": "0.0.0-semantic-release",
+    "lazy-val": "^1.0.4",
     "lodash.isequal": "^4.5.0",
-    "pako": "^1.0.10"
+    "pako": "^1.0.10",
+    "semver": "^7.1.1"
   },
   "typings": "./out/main.d.ts",
   "publishConfig": {
     "tag": "next"
+  },
+  "devDependencies": {
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.0",
+    "electron": "^7.1.9",
+    "gulp": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "ts-babel": "^6.1.7",
+    "tsify": "^4.0.1",
+    "vinyl-source-stream": "^2.0.0"
   }
 }

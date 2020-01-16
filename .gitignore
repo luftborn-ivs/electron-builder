@@ -30,3 +30,9 @@ electron-builder-*.d.ts
 /docs/
 
 __publish.sh
+
+/packages/electron-updater/node_modules/
+
+package-lock.json
+/packages/electron-updater/out
+

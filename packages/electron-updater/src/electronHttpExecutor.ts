@@ -1,6 +1,7 @@
 import { DownloadOptions, HttpExecutor, configureRequestOptions, configureRequestUrl } from "builder-util-runtime"
 import { net, session } from "electron"
 import { RequestOptions } from "http"
+import { URL } from "url";
 import Session = Electron.Session
 import ClientRequest = Electron.ClientRequest
 

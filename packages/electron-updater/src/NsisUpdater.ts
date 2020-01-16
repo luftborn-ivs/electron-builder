@@ -6,7 +6,8 @@ import { DownloadUpdateOptions } from "./AppUpdater"
 import { BaseUpdater, InstallOptions } from "./BaseUpdater"
 import { FileWithEmbeddedBlockMapDifferentialDownloader } from "./differentialDownloader/FileWithEmbeddedBlockMapDifferentialDownloader"
 import { GenericDifferentialDownloader } from "./differentialDownloader/GenericDifferentialDownloader"
-import { newUrlFromBase, ResolvedUpdateFileInfo } from "./main"
+import { ResolvedUpdateFileInfo } from "./main"
+// import { newUrlFromBase } from "./main"
 import { findFile, Provider } from "./providers/Provider"
 import { unlink } from "fs-extra"
 import { verifySignature } from "./windowsExecutableCodeSignatureVerifier"
@@ -136,8 +137,12 @@ export class NsisUpdater extends BaseUpdater {
         return true
       }
 
-      const newBlockMapUrl = newUrlFromBase(`${fileInfo.url.pathname}.blockmap`, fileInfo.url)
-      const oldBlockMapUrl = newUrlFromBase(`${fileInfo.url.pathname.replace(new RegExp(downloadUpdateOptions.updateInfoAndProvider.info.version, "g"), this.app.version)}.blockmap`, fileInfo.url)
+      // const newBlockMapUrl = newUrlFromBase(`${fileInfo.url.pathname}.blockmap`, fileInfo.url)
+      // const oldBlockMapUrl = newUrlFromBase(`${fileInfo.url.pathname.replace(new RegExp(downloadUpdateOptions.updateInfoAndProvider.info.version, "g"), this.app.version)}.blockmap`, fileInfo.url)
+      const newBlockMapUrlString = (downloadUpdateOptions.updateInfoAndProvider.info as any).assets.filter((asset: any) => asset.name.endsWith(".blockmap"))[0].browser_download_url;
+      const newBlockMapUrl = new URL(newBlockMapUrlString);
+      const oldBlockMapUrl = new URL(newBlockMapUrlString.replace(new RegExp(downloadUpdateOptions.updateInfoAndProvider.info.version, "g"), this.currentVersion.version));
+
       this._logger.info(`Download block maps (old: "${oldBlockMapUrl.href}", new: ${newBlockMapUrl.href})`)
 
       const downloadBlockMap = async (url: URL): Promise<BlockMap> => {
@@ -164,7 +169,8 @@ export class NsisUpdater extends BaseUpdater {
 
       const blockMapDataList = await Promise.all([downloadBlockMap(oldBlockMapUrl), downloadBlockMap(newBlockMapUrl)])
       await new GenericDifferentialDownloader(fileInfo.info, this.httpExecutor, {
-        newUrl: fileInfo.url,
+        // newUrl: fileInfo.url,
+        newUrl: new URL((downloadUpdateOptions.updateInfoAndProvider.info as any).assets.filter((asset: any) => asset.name.endsWith(".exe"))[1].browser_download_url),
         oldFile: path.join(this.downloadedUpdateHelper!!.cacheDir, CURRENT_APP_INSTALLER_FILE_NAME),
         logger: this._logger,
         newFile: installerPath,
